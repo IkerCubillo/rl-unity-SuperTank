@@ -28,12 +28,18 @@ public class SuperTank : Agent
     }
 
     public override void OnActionReceived(ActionBuffers actions)
-    {
-        float moveX = actions.ContinuousActions[0];
-        float moveZ = actions.ContinuousActions[1];
+    {        
+        float rotate = actions.ContinuousActions[0]; // Rotación
+        float moveZ = actions.ContinuousActions[1]; // Movimiento hacia adelante/atrás
 
         float moveSpeed = 3f;
-        transform.localPosition += new Vector3(moveX, 0, moveZ) * Time.deltaTime * moveSpeed;
+        float rotationSpeed = 100f;
+
+        // Movimiento hacia adelante o atrás
+        transform.localPosition += transform.forward * moveZ * Time.deltaTime * moveSpeed;
+
+        // Rotación
+        transform.Rotate(Vector3.up, rotate * Time.deltaTime * rotationSpeed);
     }
 
     public override void Heuristic(in ActionBuffers actionsOut)
