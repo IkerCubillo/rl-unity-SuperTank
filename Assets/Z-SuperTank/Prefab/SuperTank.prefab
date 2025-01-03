@@ -166,6 +166,8 @@ MonoBehaviour:
   hasUpgradedFromAgentParameters: 1
   MaxStep: 0
   tankHead: {fileID: 7766104446642014975}
+  projectilePrefab: {fileID: 0}
+  firePoint: {fileID: 0}
 --- !u!114 &7999325195716156379
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -202,6 +204,37 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.8019458, y: 0.32502103, z: 0.95518047}
   m_Center: {x: 0, y: 0.000000014901161, z: 0}
+--- !u!1 &3327399867048668838
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7562992036091034880}
+  m_Layer: 0
+  m_Name: FirePoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7562992036091034880
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3327399867048668838}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 7766104446642014975}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &7803620661725801748
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -277,7 +310,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
-    m_AddedGameObjects: []
+    m_AddedGameObjects:
+    - targetCorrespondingSourceObject: {fileID: -8679921383154817045, guid: 98bb346be407138469431ec22d819dc4,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 7562992036091034880}
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 98bb346be407138469431ec22d819dc4,
         type: 3}

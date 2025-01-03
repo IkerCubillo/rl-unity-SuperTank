@@ -12,6 +12,12 @@ public class SuperTank : Agent
     // [SerializeField] private Material loseMaterial;
     // [SerializeField] private MeshRenderer floorMeshRenderer;
     [SerializeField] private Transform tankHead;
+    [SerializeField] private GameObject projectilePrefab; // Arrastra aquí el prefab del proyectil
+    [SerializeField] private Transform firePoint; // Punto desde donde sale el disparo
+    private float speedMultiplier = 1f;
+    private float fireRate = 0.5f; // Tiempo entre disparos
+    private float nextFireTime = 0f;
+
     public override void OnEpisodeBegin()
     {
         // transform.localPosition = Vector3.zero;
@@ -30,21 +36,21 @@ public class SuperTank : Agent
 
     public override void OnActionReceived(ActionBuffers actions)
     {        
-        float rotate = actions.ContinuousActions[0]; // Rotación
-        float moveZ = actions.ContinuousActions[1]; // Movimiento hacia adelante/atrás
+        float rotate = actions.ContinuousActions[0];
+        float moveZ = actions.ContinuousActions[1];
         float headRotate = actions.ContinuousActions[2];
 
-        float moveSpeed = 3f;
-        float rotationSpeed = 100f;
-        float headRotationSpeed = 50f;
+        float baseSpeed = 3f;
+        float baseRotationSpeed = 100f;
+        float baseHeadRotationSpeed = 50f;
 
-        // Movimiento hacia adelante o atrás
+        // Aplicamos el multiplicador a todas las velocidades
+        float moveSpeed = baseSpeed * speedMultiplier;
+        float rotationSpeed = baseRotationSpeed * speedMultiplier;
+        float headRotationSpeed = baseHeadRotationSpeed * speedMultiplier;
+
         transform.localPosition += transform.forward * moveZ * Time.deltaTime * moveSpeed;
-
-        // Rotación
         transform.Rotate(Vector3.up, rotate * Time.deltaTime * rotationSpeed);
-
-        // Girar la cabeza del tanque
         tankHead.Rotate(Vector3.up, headRotate * Time.deltaTime * headRotationSpeed);
     }
 
@@ -53,12 +59,39 @@ public class SuperTank : Agent
         ActionSegment<float> continuousActions = actionsOut.ContinuousActions;
         continuousActions[0] = Input.GetAxisRaw("Horizontal");
         continuousActions[1] = Input.GetAxisRaw("Vertical");
+        
         // Movimiento de la cabeza (Q y E para girar)
         if (Input.GetKey(KeyCode.Q))
-            continuousActions[2] = -1f; // Girar la cabeza a la izquierda
+            continuousActions[2] = -1f;
         else if (Input.GetKey(KeyCode.E))
-            continuousActions[2] = 1f; // Girar la cabeza a la derecha
+            continuousActions[2] = 1f;
         else
-            continuousActions[2] = 0f; // Sin rotación
+            continuousActions[2] = 0f;
+
+        // Disparar con la barra espaciadora
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            Fire();
+        }
+    }
+
+    private void Fire()
+    {
+        if (Time.time < nextFireTime) return; // Verificar si podemos disparar
+
+        nextFireTime = Time.time + fireRate;
+
+        // Si no hay un punto de disparo específico, usar la posición de la cabeza
+        Vector3 spawnPosition = firePoint != null ? firePoint.position : tankHead.position;
+        
+        // Crear el proyectil
+        GameObject projectile = Instantiate(projectilePrefab, spawnPosition, tankHead.rotation);
+        Debug.Log("¡Tanque disparando!");
+    }
+
+    public void SetSpeedMultiplier(float multiplier)
+    {
+        speedMultiplier = multiplier;
+        Debug.Log($"SuperTank: Multiplicador de velocidad establecido a {multiplier}");
     }
 }
