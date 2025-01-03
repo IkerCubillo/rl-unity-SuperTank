@@ -10,9 +10,14 @@ public class SuperTank : Agent
     [SerializeField] private Transform tankHead;
     [SerializeField] private GameObject projectilePrefab;
     [SerializeField] private Transform firePoint;
-    [SerializeField] private float raycastDistance = 1f; // Distancia del rayo para detectar suelo
-    [SerializeField] private Transform leftTrack; // Punto de origen del raycast izquierdo
-    [SerializeField] private Transform rightTrack; // Punto de origen del raycast derecho
+    [SerializeField] private float raycastDistance = 0.6f; // Ajustaremos este valor
+    [SerializeField] private Transform leftTrack;
+    [SerializeField] private Transform rightTrack;
+    [SerializeField] private bool showDebugRays = true; // Para ver los rayos en el editor
+    [SerializeField] private float maxRollAngle = 45f; // Ángulo máximo de inclinación lateral permitido
+    [SerializeField] private bool showDebugAngles = true; // Para depuración
+    [SerializeField] private int maxHealth = 100;
+    private int currentHealth;
 
     private float speedMultiplier = 1f;
     private float fireRate = 0.5f;
@@ -22,36 +27,40 @@ public class SuperTank : Agent
     private void Start()
     {
         rb = GetComponent<Rigidbody>();
-        
-        // Si no se asignaron los puntos de las orugas, crearlos automáticamente
-        if (leftTrack == null)
+        leftTrack = transform.Find("LeftTrack");
+        rightTrack = transform.Find("RightTrack");
+        currentHealth = maxHealth;
+    }
+
+    private void OnDrawGizmos()
+    {
+        if (showDebugRays && leftTrack != null && rightTrack != null)
         {
-            GameObject left = new GameObject("LeftTrack");
-            leftTrack = left.transform;
-            leftTrack.parent = transform;
-            leftTrack.localPosition = new Vector3(-0.5f, 0f, 0f); // Ajusta según el tamaño de tu tanque
-        }
-        if (rightTrack == null)
-        {
-            GameObject right = new GameObject("RightTrack");
-            rightTrack = right.transform;
-            rightTrack.parent = transform;
-            rightTrack.localPosition = new Vector3(0.5f, 0f, 0f); // Ajusta según el tamaño de tu tanque
+            // Dibujar esferas en los puntos de las orugas
+            Gizmos.color = Color.yellow;
+            Gizmos.DrawWireSphere(leftTrack.position, 0.1f);
+            Gizmos.DrawWireSphere(rightTrack.position, 0.1f);
+
+            // Dibujar los rayos
+            Gizmos.color = Color.blue;
+            Gizmos.DrawLine(leftTrack.position, leftTrack.position + Vector3.down * raycastDistance);
+            Gizmos.DrawLine(rightTrack.position, rightTrack.position + Vector3.down * raycastDistance);
         }
     }
 
-    private bool IsGrounded()
+    private bool CanMove()
     {
-        // Lanzar rayos desde ambas orugas
-        bool leftGrounded = Physics.Raycast(leftTrack.position, Vector3.down, raycastDistance);
-        bool rightGrounded = Physics.Raycast(rightTrack.position, Vector3.down, raycastDistance);
+        // Obtener el ángulo de inclinación lateral (roll)
+        float rollAngle = transform.rotation.eulerAngles.z;
+        if (rollAngle > 180) rollAngle -= 360; // Normalizar a -180 a 180
 
-        // Debug visual de los rayos
-        Debug.DrawRay(leftTrack.position, Vector3.down * raycastDistance, leftGrounded ? Color.green : Color.red);
-        Debug.DrawRay(rightTrack.position, Vector3.down * raycastDistance, rightGrounded ? Color.green : Color.red);
+        if (showDebugAngles)
+        {
+            Debug.Log($"Roll angle: {rollAngle}");
+        }
 
-        // El tanque está en el suelo si al menos una oruga lo toca
-        return leftGrounded || rightGrounded;
+        // Si la inclinación lateral es demasiado alta, no permitir movimiento
+        return Mathf.Abs(rollAngle) < maxRollAngle;
     }
 
     private void ApplyMovement(float moveZ, float rotate, float headRotate)
@@ -60,17 +69,14 @@ public class SuperTank : Agent
         float rotationSpeed = 100f * speedMultiplier;
         float headRotationSpeed = 50f * speedMultiplier;
 
-        // Solo permitir movimiento si está en contacto con el suelo
-        if (IsGrounded())
+        // Solo permitir movimiento si el tanque no está demasiado inclinado
+        if (CanMove())
         {
-            // Movimiento hacia adelante/atrás
             transform.localPosition += transform.forward * moveZ * Time.deltaTime * moveSpeed;
-            
-            // Rotación del tanque (permitir girar incluso si solo una oruga toca el suelo)
             transform.Rotate(Vector3.up, rotate * Time.deltaTime * rotationSpeed);
         }
 
-        // La cabeza siempre puede girar independientemente de si está en el suelo
+        // La cabeza siempre puede girar
         tankHead.Rotate(Vector3.up, headRotate * Time.deltaTime * headRotationSpeed);
     }
 
@@ -161,5 +167,39 @@ public class SuperTank : Agent
     {
         speedMultiplier = multiplier;
         Debug.Log($"SuperTank: Multiplicador de velocidad establecido a {multiplier}");
+    }
+
+    public void TakeDamage(int damage)
+    {
+        currentHealth -= damage;
+        Debug.Log($"¡Tanque dañado! Vida restante: {currentHealth}");
+
+        if (currentHealth <= 0)
+        {
+            Die();
+        }
+    }
+
+    private void Die()
+    {
+        Debug.Log("¡Tanque destruido!");
+        AddReward(-1f); // Penalización por morir
+        EndEpisode(); // Reiniciar el episodio (para ML-Agents)
+    }
+
+    public override void OnEpisodeBegin()
+    {
+        // Restaurar la salud al comenzar un nuevo episodio
+        currentHealth = maxHealth;
+        
+        // Restablecer la posición del tanque
+        transform.localPosition = new Vector3(2, 0.5f, -2);
+        transform.rotation = Quaternion.identity;
+        
+        // Restablecer la rotación de la cabeza del tanque
+        if (tankHead != null)
+        {
+            tankHead.localRotation = Quaternion.identity;
+        }
     }
 }
