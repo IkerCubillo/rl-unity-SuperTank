@@ -5,10 +5,12 @@ public class TurretProjectile : MonoBehaviour
     private float speed;
     private float lifeTime = 3f;
     private int damage = 34; // 3 golpes para destruir el tanque
+    private TurretShoot ownerAgent;
 
-    public void Initialize(float projectileSpeed)
+    public void Initialize(float projectileSpeed, TurretShoot agent)
     {
         speed = projectileSpeed;
+        ownerAgent = agent;
         Destroy(gameObject, lifeTime);
     }
 
@@ -28,8 +30,24 @@ public class TurretProjectile : MonoBehaviour
             {
                 tank.TakeDamage(damage);
             }
+
+            if (ownerAgent != null)
+            {
+                ownerAgent.AddReward(100f); // Recompensa adicional por impactar al tanque
+                ownerAgent.rewardAccumulada += 100f;
+                Debug.Log("Puntos +100 impacto");
+
+                if (tank.currentHealth <= 0)
+                {
+                    ownerAgent.AddReward(1000f); // Recompensa adicional por impactar al tanque
+                    ownerAgent.rewardAccumulada += 1000f;
+                    Debug.Log("Puntos +1000 impacto");
+                    ownerAgent.EndEpisode();
+                }
+            }
             
             Destroy(gameObject);
         }
+
     }
 } 

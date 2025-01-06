@@ -1,0 +1,29 @@
+{
+    "TurretShoot": {
+        "checkpoints": [
+            {
+                "steps": 174400,
+                "file_path": "results\\turret_train_2\\TurretShoot\\TurretShoot-174400.onnx",
+                "reward": 1803.1833058198292,
+                "creation_time": 1736192365.4377978,
+                "auxillary_file_paths": [
+                    "results\\turret_train_2\\TurretShoot\\TurretShoot-174400.pt"
+                ]
+            }
+        ],
+        "final_checkpoint": {
+            "steps": 174400,
+            "file_path": "results\\turret_train_2\\TurretShoot.onnx",
+            "reward": 1803.1833058198292,
+            "creation_time": 1736192365.4377978,
+            "auxillary_file_paths": [
+                "results\\turret_train_2\\TurretShoot\\TurretShoot-174400.pt"
+            ]
+        }
+    },
+    "metadata": {
+        "stats_format_version": "0.3.0",
+        "mlagents_version": "1.1.0",
+        "torch_version": "2.2.2+cu121"
+    }
+}

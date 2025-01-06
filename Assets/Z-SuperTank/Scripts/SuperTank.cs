@@ -11,9 +11,9 @@ public class SuperTank : Agent
     [SerializeField] private GameObject projectilePrefab;
     [SerializeField] private Transform firePoint;
     [SerializeField] private float maxRollAngle = 45f; // Ángulo máximo de inclinación lateral permitido
-    [SerializeField] private bool showDebugAngles = true; // Para depuración
+    [SerializeField] private bool showDebugAngles = false; // Para depuración
     [SerializeField] private int maxHealth = 100;
-    private int currentHealth;
+    public int currentHealth;
     private float speedMultiplier = 1f;
     private float fireRate = 0.5f;
     private float nextFireTime = 0f;
@@ -23,7 +23,7 @@ public class SuperTank : Agent
     {
         currentHealth = maxHealth;
         
-        transform.localPosition = new Vector3(-0.5f, 0.2f, -4);
+        // transform.localPosition = new Vector3(-0.5f, 0.2f, -4);
         transform.rotation = Quaternion.identity;
         tankHead.localRotation = Quaternion.identity;
 
@@ -141,8 +141,8 @@ public class SuperTank : Agent
     private void Die()
     {
         Debug.Log("¡Tanque destruido!");
-        AddReward(-1f); // Penalización por morir
-        EndEpisode(); // Reiniciar el episodio (para ML-Agents)
+        //AddReward(-1f); // Penalización por morir
+        //EndEpisode(); // Reiniciar el episodio (para ML-Agents)
     }
 
 }

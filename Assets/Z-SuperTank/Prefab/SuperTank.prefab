@@ -32,7 +32,7 @@ Transform:
   m_GameObject: {fileID: 161116061590688616}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 2, y: 0.5, z: -2}
+  m_LocalPosition: {x: -4, y: 0.21, z: -4}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -169,9 +169,9 @@ MonoBehaviour:
   tankHead: {fileID: 7766104446642014975}
   projectilePrefab: {fileID: 0}
   firePoint: {fileID: 0}
-  raycastDistance: 1
-  leftTrack: {fileID: 0}
-  rightTrack: {fileID: 0}
+  maxRollAngle: 45
+  showDebugAngles: 1
+  maxHealth: 100
 --- !u!114 &7999325195716156379
 MonoBehaviour:
   m_ObjectHideFlags: 0
