@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 7173057337059253412}
   - component: {fileID: 7530587298487663587}
   - component: {fileID: 8203048593074368409}
-  - component: {fileID: 2424170754262967873}
+  - component: {fileID: -7502083011728888104}
   m_Layer: 0
   m_Name: BalaTorreta 1
   m_TagString: Untagged
@@ -136,7 +136,7 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!114 &2424170754262967873
+--- !u!114 &-7502083011728888104
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -145,8 +145,6 @@ MonoBehaviour:
   m_GameObject: {fileID: 5925694129162115490}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b84ad029d28e97e498d6b4eae074a58f, type: 3}
+  m_Script: {fileID: 11500000, guid: 69fcd698ba9fbd24dba3bc476744786b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 20
-  lifeTime: 3

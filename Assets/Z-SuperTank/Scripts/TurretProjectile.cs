@@ -31,5 +31,8 @@ public class TurretProjectile : MonoBehaviour
             
             Destroy(gameObject);
         }
+        if (other.TryGetComponent<Limit>(out Limit limit)){
+            Destroy(gameObject);
+        }
     }
 } 

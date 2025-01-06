@@ -7,45 +7,74 @@ using Unity.MLAgents.Actuators;
 
 public class SuperTank : Agent
 {
+    [SerializeField] private Transform targetTransform;
     [SerializeField] private Transform tankHead;
     [SerializeField] private GameObject projectilePrefab;
     [SerializeField] private Transform firePoint;
-    [SerializeField] private float raycastDistance = 0.6f; // Ajustaremos este valor
-    [SerializeField] private Transform leftTrack;
-    [SerializeField] private Transform rightTrack;
-    [SerializeField] private bool showDebugRays = true; // Para ver los rayos en el editor
     [SerializeField] private float maxRollAngle = 45f; // Ángulo máximo de inclinación lateral permitido
     [SerializeField] private bool showDebugAngles = true; // Para depuración
     [SerializeField] private int maxHealth = 100;
     private int currentHealth;
-
     private float speedMultiplier = 1f;
     private float fireRate = 0.5f;
     private float nextFireTime = 0f;
     private Rigidbody rb;
 
-    private void Start()
+    public float performanceScore = 0f;
+
+    public override void OnEpisodeBegin()
     {
-        rb = GetComponent<Rigidbody>();
-        leftTrack = transform.Find("LeftTrack");
-        rightTrack = transform.Find("RightTrack");
         currentHealth = maxHealth;
+        performanceScore = 0f;
+        //transform.localPosition = new Vector3(-0.5f, 0.2f, -4);
+        transform.localPosition = new Vector3(Random.Range(-6f, 6f), 0.2f, Random.Range(-6f, 6f));
+        targetTransform.localPosition = new Vector3(Random.Range(-6f, 6f), 0.2f, Random.Range(-6f, 6f));
+        transform.rotation = Quaternion.identity;
+        tankHead.localRotation = Quaternion.identity;
+
+        rb = GetComponent<Rigidbody>();
+        
     }
 
-    private void OnDrawGizmos()
-    {
-        if (showDebugRays && leftTrack != null && rightTrack != null)
-        {
-            // Dibujar esferas en los puntos de las orugas
-            Gizmos.color = Color.yellow;
-            Gizmos.DrawWireSphere(leftTrack.position, 0.1f);
-            Gizmos.DrawWireSphere(rightTrack.position, 0.1f);
+    public override void OnActionReceived(ActionBuffers actions)
+    {        
+        float rotate = actions.ContinuousActions[0];
+        float moveZ = actions.ContinuousActions[1];
+        float headRotate = actions.ContinuousActions[2];
+        int shootAction = actions.DiscreteActions[0];
 
-            // Dibujar los rayos
-            Gizmos.color = Color.blue;
-            Gizmos.DrawLine(leftTrack.position, leftTrack.position + Vector3.down * raycastDistance);
-            Gizmos.DrawLine(rightTrack.position, rightTrack.position + Vector3.down * raycastDistance);
+        ApplyMovement(moveZ, rotate, headRotate);
+        
+        if (shootAction == 1)
+        {
+            Fire();
         }
+        
+        // if (moveZ > 0)
+        // {
+        //     AddReward(1f);
+        // }
+
+        AddReward(-0.01f);
+        performanceScore += -0.01f;
+    }
+
+    public override void Heuristic(in ActionBuffers actionsOut)
+    {
+        var continuousActions = actionsOut.ContinuousActions;
+        var discreteActions = actionsOut.DiscreteActions;
+
+        continuousActions[0] = Input.GetAxisRaw("Horizontal");
+        continuousActions[1] = Input.GetAxisRaw("Vertical");
+            
+        if (Input.GetKey(KeyCode.Q))
+            continuousActions[2] = -1f;
+        else if (Input.GetKey(KeyCode.E))
+            continuousActions[2] = 1f;
+        else
+            continuousActions[2] = 0f;
+
+        discreteActions[0] = Input.GetKey(KeyCode.Space) ? 1 : 0;
     }
 
     private bool CanMove()
@@ -56,7 +85,7 @@ public class SuperTank : Agent
 
         if (showDebugAngles)
         {
-            Debug.Log($"Roll angle: {rollAngle}");
+            //Debug.Log($"Roll angle: {rollAngle}");
         }
 
         // Si la inclinación lateral es demasiado alta, no permitir movimiento
@@ -80,64 +109,6 @@ public class SuperTank : Agent
         tankHead.Rotate(Vector3.up, headRotate * Time.deltaTime * headRotationSpeed);
     }
 
-    private void Update()
-    {
-        float moveZ = Input.GetAxis("Vertical");
-        float rotate = Input.GetAxis("Horizontal");
-        
-        float headRotate = 0f;
-        if (Input.GetKey(KeyCode.Q)) headRotate = -1f;
-        if (Input.GetKey(KeyCode.E)) headRotate = 1f;
-
-        ApplyMovement(moveZ, rotate, headRotate);
-
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            Fire();
-        }
-    }
-
-    public override void OnActionReceived(ActionBuffers actions)
-    {        
-        float rotate = actions.ContinuousActions[0];
-        float moveZ = actions.ContinuousActions[1];
-        float headRotate = actions.ContinuousActions[2];
-        bool shouldFire = actions.DiscreteActions.Length > 0 && actions.DiscreteActions[0] == 1;
-
-        ApplyMovement(moveZ, rotate, headRotate);
-
-        if (shouldFire)
-        {
-            Fire();
-        }
-    }
-
-    public override void Heuristic(in ActionBuffers actionsOut)
-    {
-        var continuousActions = actionsOut.ContinuousActions;
-        var discreteActions = actionsOut.DiscreteActions;
-
-        // Asegurarnos de que tenemos suficiente espacio para las acciones
-        if (continuousActions.Length >= 3)
-        {
-            continuousActions[0] = Input.GetAxisRaw("Horizontal");
-            continuousActions[1] = Input.GetAxisRaw("Vertical");
-            
-            if (Input.GetKey(KeyCode.Q))
-                continuousActions[2] = -1f;
-            else if (Input.GetKey(KeyCode.E))
-                continuousActions[2] = 1f;
-            else
-                continuousActions[2] = 0f;
-        }
-
-        // Asegurarnos de que tenemos espacio para la acción discreta
-        if (discreteActions.Length > 0)
-        {
-            discreteActions[0] = Input.GetKey(KeyCode.Space) ? 1 : 0;
-        }
-    }
-
     private void Fire()
     {
         if (Time.time < nextFireTime) return;
@@ -153,6 +124,7 @@ public class SuperTank : Agent
         }
         Debug.Log("¡Tanque disparando!");
 
+        
         // Aplicar retroceso
         if (rb != null)
         {
@@ -173,7 +145,7 @@ public class SuperTank : Agent
     {
         currentHealth -= damage;
         Debug.Log($"¡Tanque dañado! Vida restante: {currentHealth}");
-
+        
         if (currentHealth <= 0)
         {
             Die();
@@ -183,23 +155,31 @@ public class SuperTank : Agent
     private void Die()
     {
         Debug.Log("¡Tanque destruido!");
-        AddReward(-1f); // Penalización por morir
+        //Debug.Log(Reward);
+        AddReward(-10f); // Penalización por morir
+        performanceScore += -10f;
         EndEpisode(); // Reiniciar el episodio (para ML-Agents)
     }
 
-    public override void OnEpisodeBegin()
-    {
-        // Restaurar la salud al comenzar un nuevo episodio
-        currentHealth = maxHealth;
+    private void OnTriggerEnter(Collider other){
         
-        // Restablecer la posición del tanque
-        transform.localPosition = new Vector3(2, 0.5f, -2);
-        transform.rotation = Quaternion.identity;
-        
-        // Restablecer la rotación de la cabeza del tanque
-        if (tankHead != null)
-        {
-            tankHead.localRotation = Quaternion.identity;
+        if (other.TryGetComponent<Limit>(out Limit limit)){
+            Debug.Log($"Se choca con: {other.gameObject.name}!");
+            SetReward(-100f);
+            performanceScore += -100f;
+            EndEpisode();
         }
+        // if (other.CompareTag("Canon")){
+        //     Debug.Log($"Se choca con: {other.gameObject.name}!");
+        //     SetReward(-5f);
+        //     performanceScore += -5f;
+        // }
     }
+
+    public override void CollectObservations(VectorSensor sensor)
+    {
+        sensor.AddObservation(transform.localPosition); // Our localPosition
+        sensor.AddObservation(targetTransform.localPosition); // Unity target localPosition
+    }
+
 }

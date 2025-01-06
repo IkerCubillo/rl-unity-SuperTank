@@ -35,6 +35,6 @@ public class EnemyTurret : MonoBehaviour
         GameObject projectile = Instantiate(projectilePrefab, firePoint.position, firePoint.rotation);
         TurretProjectile projectileScript = projectile.AddComponent<TurretProjectile>();
         projectileScript.Initialize(projectileSpeed);
-        Debug.Log($"Torreta {gameObject.name} disparando!");
+        //Debug.Log($"Torreta {gameObject.name} disparando!");
     }
 } 

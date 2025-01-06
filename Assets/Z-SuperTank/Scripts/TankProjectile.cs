@@ -32,12 +32,18 @@ public class TankProjectile : MonoBehaviour
             
             if (tankAgent != null)
             {
-                tankAgent.AddReward(1.0f);
+                tankAgent.AddReward(100.0f);
+                tankAgent.performanceScore += 100.0f;
             }
             
-            Destroy(other.gameObject);
+            //Destroy(other.gameObject);
             Destroy(gameObject);
         }
+
+        if (other.TryGetComponent<Limit>(out Limit limit)){
+            Destroy(gameObject);
+        }
+
         else
         {
             // Opcional: destruir el proyectil al golpear cualquier cosa
