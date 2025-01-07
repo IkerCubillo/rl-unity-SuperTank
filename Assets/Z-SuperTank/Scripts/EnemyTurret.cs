@@ -1,24 +1,23 @@
+using Unity.MLAgents;
 using UnityEngine;
 
-public class EnemyTurret : MonoBehaviour
+public class EnemyTurret : Agent
 {
     [SerializeField] private GameObject projectilePrefab;
     [SerializeField] private Transform firePoint;
     [SerializeField] private float fireRate = 5f;
-    [SerializeField] private float projectileSpeed = 20f;
-
+    //[SerializeField] private float projectileSpeed = 20f;
+    [SerializeField] private Vector3 posicionTorreta = new Vector3(-0.5f, 2.5f, -4);
     private float nextFireTime = 0f;
 
     private void Start()
     {
-        // Si no hay un punto de disparo asignado, crear uno
-        if (firePoint == null)
-        {
-            GameObject fp = new GameObject("FirePoint");
-            firePoint = fp.transform;
-            firePoint.SetParent(transform);
-            firePoint.localPosition = new Vector3(0, 0, 1); // Ajusta según el modelo de tu torreta
-        }
+
+    }
+
+    public override void OnEpisodeBegin()
+    {
+        transform.localPosition = posicionTorreta;
     }
 
     private void Update()

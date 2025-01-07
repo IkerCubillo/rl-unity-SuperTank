@@ -1,0 +1,11 @@
+Anaconda:
+conda activate mlagents
+cd  dirección\absoluta\rl-unity-SuperTank
+
+Entrenamiento:
+mlagents-learn --run-id=Test2 					# Entrenamos un modelo, se encuentra en resultados/idModelo
+mlagents-learn config/NombreConfiguracion.yaml --run-id=Test2 	# Entrenamos un modelo con un modelo NN propio de config
+mlagents-learn config/NombreConfiguracion.yaml --initialize-from=runIdAnterior --run-id=Test2 	# Continuamos entrenamiento desde una anterior ejecución
+
+Tensorboard: En una nueva anaconda, siguiendo pasos iniciales
+tensorboard --logdir results

@@ -5,20 +5,21 @@ using Unity.MLAgents;
 using Unity.MLAgents.Sensors;
 using Unity.MLAgents.Actuators;
 
-public class SuperTank : Agent
+public class SuperTank: Agent
 {
     [SerializeField] private Transform targetTransform;
     [SerializeField] private Transform tankHead;
     [SerializeField] private GameObject projectilePrefab;
     [SerializeField] private Transform firePoint;
     [SerializeField] private float maxRollAngle = 45f; // Ángulo máximo de inclinación lateral permitido
-    [SerializeField] private bool showDebugAngles = true; // Para depuración
+    [SerializeField] private bool showDebugAngles = false; // Para depuración
     [SerializeField] private int maxHealth = 100;
-    private int currentHealth;
+    public int currentHealth;
     private float speedMultiplier = 1f;
     private float fireRate = 0.5f;
     private float nextFireTime = 0f;
     private Rigidbody rb;
+
 
     public float performanceScore = 0f;
 
@@ -43,14 +44,15 @@ public class SuperTank : Agent
     }
 
 
+    
     public override void OnActionReceived(ActionBuffers actions)
     {        
         float rotate = actions.ContinuousActions[0];
-        //float moveZ = actions.ContinuousActions[1];
-        float headRotate = actions.ContinuousActions[1];
+        float moveZ = actions.ContinuousActions[1];
+        float headRotate = actions.ContinuousActions[2];
         int shootAction = actions.DiscreteActions[0];
 
-        ApplyMovement(rotate, headRotate);
+        ApplyMovement(moveZ, rotate, headRotate);
         
         if (shootAction == 1)
         {
@@ -131,6 +133,24 @@ public class SuperTank : Agent
         discreteActions[0] = Input.GetKey(KeyCode.Space) ? 1 : 0;
     }
 
+    public override void Heuristic(in ActionBuffers actionsOut)
+    {
+        var continuousActions = actionsOut.ContinuousActions;
+        var discreteActions = actionsOut.DiscreteActions;
+
+        continuousActions[0] = Input.GetAxisRaw("Horizontal");
+        continuousActions[1] = Input.GetAxisRaw("Vertical");
+            
+        if (Input.GetKey(KeyCode.Q))
+            continuousActions[2] = -1f;
+        else if (Input.GetKey(KeyCode.E))
+            continuousActions[2] = 1f;
+        else
+            continuousActions[2] = 0f;
+
+        discreteActions[0] = Input.GetKey(KeyCode.Space) ? 1 : 0;
+    }
+
     private bool CanMove()
     {
         // Obtener el ángulo de inclinación lateral (roll)
@@ -174,7 +194,7 @@ public class SuperTank : Agent
         TankProjectile tankProjectile = projectile.GetComponent<TankProjectile>();
         if (tankProjectile != null)
         {
-            tankProjectile.Initialize(this);
+            //tankProjectile.Initialize(this);
         }
         Debug.Log("¡Tanque disparando!");
 
