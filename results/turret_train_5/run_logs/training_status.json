@@ -1,0 +1,38 @@
+{
+    "TurretShoot": {
+        "checkpoints": [
+            {
+                "steps": 499968,
+                "file_path": "results\\turret_train_5\\TurretShoot\\TurretShoot-499968.onnx",
+                "reward": 1643.7499704658985,
+                "creation_time": 1736197892.8850794,
+                "auxillary_file_paths": [
+                    "results\\turret_train_5\\TurretShoot\\TurretShoot-499968.pt"
+                ]
+            },
+            {
+                "steps": 500224,
+                "file_path": "results\\turret_train_5\\TurretShoot\\TurretShoot-500224.onnx",
+                "reward": 1643.7499704658985,
+                "creation_time": 1736197892.965864,
+                "auxillary_file_paths": [
+                    "results\\turret_train_5\\TurretShoot\\TurretShoot-500224.pt"
+                ]
+            }
+        ],
+        "final_checkpoint": {
+            "steps": 500224,
+            "file_path": "results\\turret_train_5\\TurretShoot.onnx",
+            "reward": 1643.7499704658985,
+            "creation_time": 1736197892.965864,
+            "auxillary_file_paths": [
+                "results\\turret_train_5\\TurretShoot\\TurretShoot-500224.pt"
+            ]
+        }
+    },
+    "metadata": {
+        "stats_format_version": "0.3.0",
+        "mlagents_version": "1.1.0",
+        "torch_version": "2.2.2+cu121"
+    }
+}

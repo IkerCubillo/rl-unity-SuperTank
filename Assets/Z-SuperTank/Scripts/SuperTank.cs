@@ -5,7 +5,7 @@ using Unity.MLAgents;
 using Unity.MLAgents.Sensors;
 using Unity.MLAgents.Actuators;
 
-public class SuperTank : Agent
+public class SuperTank: Agent
 {
     [SerializeField] private Transform tankHead;
     [SerializeField] private GameObject projectilePrefab;
@@ -107,7 +107,7 @@ public class SuperTank : Agent
         TankProjectile tankProjectile = projectile.GetComponent<TankProjectile>();
         if (tankProjectile != null)
         {
-            tankProjectile.Initialize(this);
+            //tankProjectile.Initialize(this);
         }
         Debug.Log("¡Tanque disparando!");
 

@@ -5,11 +5,6 @@ using Unity.MLAgents.Actuators;
 
 public class TurretShoot : Agent
 {   
-    [SerializeField] private Material winMaterial;
-    [SerializeField] private Material normalMaterial;
-    [SerializeField] private MeshRenderer floorMeshRenderer;
-
-
     [Header("Referencias")]
     public Transform turretCanon;  // El cañón que rota verticalmente
     public Transform firePoint; // Punto desde donde se disparan los proyectiles
@@ -36,7 +31,6 @@ public class TurretShoot : Agent
     
     public override void OnEpisodeBegin()
     {
-        floorMeshRenderer.material = normalMaterial;
         // turretCanon.localRotation = Quaternion.identity;
         turretCanon.localRotation = Quaternion.Euler(3f, 0f, 0f);
 
@@ -60,7 +54,7 @@ public class TurretShoot : Agent
         sensor.AddObservation(anguloHorizontal);
 
         // 3. Ángulo vertical del cañón (normalizado entre -0.5 y 0.5, dado el rango -10° a 25°)
-        float anguloVertical = Mathf.Clamp(turretCanon.localRotation.eulerAngles.x, -10f, 25f) / 360f;
+        float anguloVertical = Mathf.Clamp(turretCanon.localRotation.eulerAngles.x, -20f, 15f) / 360f;
         sensor.AddObservation(anguloVertical);
 
         // 4. Línea de visión al objetivo (bool convertido a float)
@@ -130,8 +124,8 @@ public class TurretShoot : Agent
             tiempoUltimoDisparo = Time.time;
 
             // Recompensa por disparar con éxito
-            AddReward(2f);
-            rewardAccumulada += 2f;
+            AddReward(-0.1f);
+            rewardAccumulada += -0.1f;
             Debug.Log("Puntos +10, disparo vision");
         }
         else if (shootAction == 1)
@@ -139,24 +133,24 @@ public class TurretShoot : Agent
             Fire();
             tiempoUltimoDisparo = Time.time;
             // Penalización por disparar sin tener línea de visión
-            AddReward(-1f);
-            rewardAccumulada -= 1f;
+            AddReward(-2f);
+            rewardAccumulada -= 2f;
             Debug.Log("Puntos -5, disparo no vision");
         }
 
          // 4. Recompensa por buena alineación
         if (EstaEnFrente())
         {
-            AddReward(0.1f); // Pequeña recompensa por buena alineación
-            rewardAccumulada += 0.1f;
+            AddReward(0.05f); // Pequeña recompensa por buena alineación
+            rewardAccumulada += 0.05f;
             Debug.Log("Puntos +0.1,  delante");
         }
 
         // 5. Penalización por rotación excesiva
         if (!EstaEnFrente())
         {
-            AddReward(-0.1f); // Penalización por rotaciones innecesarias
-            rewardAccumulada -= 0.1f;
+            AddReward(-0.2f); // Penalización por rotaciones innecesarias
+            rewardAccumulada -= 0.2f;
             Debug.Log("Puntos -0.1, no delante");
         }
 
@@ -215,7 +209,7 @@ public class TurretShoot : Agent
         float anguloVertical = Mathf.Acos(dotProductVertical) * Mathf.Rad2Deg;
 
         // Comprobar si el ángulo está dentro del rango permitido (45° horizontal y 10° vertical)
-        return anguloHorizontal <= 45f && anguloVertical <= 15f;
+        return anguloHorizontal <= 35f && anguloVertical <= 15f;
     }
 
 
