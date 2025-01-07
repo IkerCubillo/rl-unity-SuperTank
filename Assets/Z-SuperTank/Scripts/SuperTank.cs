@@ -133,24 +133,6 @@ public class SuperTank: Agent
         discreteActions[0] = Input.GetKey(KeyCode.Space) ? 1 : 0;
     }
 
-    public override void Heuristic(in ActionBuffers actionsOut)
-    {
-        var continuousActions = actionsOut.ContinuousActions;
-        var discreteActions = actionsOut.DiscreteActions;
-
-        continuousActions[0] = Input.GetAxisRaw("Horizontal");
-        continuousActions[1] = Input.GetAxisRaw("Vertical");
-            
-        if (Input.GetKey(KeyCode.Q))
-            continuousActions[2] = -1f;
-        else if (Input.GetKey(KeyCode.E))
-            continuousActions[2] = 1f;
-        else
-            continuousActions[2] = 0f;
-
-        discreteActions[0] = Input.GetKey(KeyCode.Space) ? 1 : 0;
-    }
-
     private bool CanMove()
     {
         // Obtener el ángulo de inclinación lateral (roll)
@@ -166,16 +148,16 @@ public class SuperTank: Agent
         return Mathf.Abs(rollAngle) < maxRollAngle;
     }
 
-    private void ApplyMovement(float rotate, float headRotate)
+    private void ApplyMovement(float moveZ, float rotate, float headRotate)
     {
-        //float moveSpeed = 3f * speedMultiplier;
+        float moveSpeed = 3f * speedMultiplier;
         float rotationSpeed = 100f * speedMultiplier;
         float headRotationSpeed = 50f * speedMultiplier;
 
         // Solo permitir movimiento si el tanque no está demasiado inclinado
         if (CanMove())
         {
-        //     transform.localPosition += transform.forward * moveZ * Time.deltaTime * moveSpeed;
+            transform.localPosition += transform.forward * moveZ * Time.deltaTime * moveSpeed;
             transform.Rotate(Vector3.up, rotate * Time.deltaTime * rotationSpeed);
         }
 
@@ -194,7 +176,7 @@ public class SuperTank: Agent
         TankProjectile tankProjectile = projectile.GetComponent<TankProjectile>();
         if (tankProjectile != null)
         {
-            //tankProjectile.Initialize(this);
+            tankProjectile.Initialize(this);
         }
         Debug.Log("¡Tanque disparando!");
 

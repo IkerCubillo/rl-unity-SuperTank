@@ -6,7 +6,7 @@ public class EnemyTurret : Agent
     [SerializeField] private GameObject projectilePrefab;
     [SerializeField] private Transform firePoint;
     [SerializeField] private float fireRate = 5f;
-    //[SerializeField] private float projectileSpeed = 20f;
+    // [SerializeField] private float projectileSpeed = 20f;
     [SerializeField] private Vector3 posicionTorreta = new Vector3(-0.5f, 2.5f, -4);
     private float nextFireTime = 0f;
 
@@ -33,7 +33,7 @@ public class EnemyTurret : Agent
     {
         GameObject projectile = Instantiate(projectilePrefab, firePoint.position, firePoint.rotation);
         TurretProjectile projectileScript = projectile.AddComponent<TurretProjectile>();
-        projectileScript.Initialize(projectileSpeed);
-        //Debug.Log($"Torreta {gameObject.name} disparando!");
+        // projectileScript.Initialize(projectileSpeed);
+        // Debug.Log($"Torreta {gameObject.name} disparando!");
     }
 } 

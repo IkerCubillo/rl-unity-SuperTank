@@ -97,8 +97,10 @@ GameObject:
   - component: {fileID: 3330217183687215775}
   - component: {fileID: 1844388386356004154}
   - component: {fileID: 4502581749356425712}
-  - component: {fileID: 8146563009251246552}
   - component: {fileID: 9192322957610682290}
+  - component: {fileID: 6187259271877082961}
+  - component: {fileID: -7075048047974222919}
+  - component: {fileID: 2103594042412960437}
   m_Layer: 0
   m_Name: Canon
   m_TagString: Canon
@@ -115,7 +117,7 @@ Transform:
   m_GameObject: {fileID: 2701207938523222053}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: -0.7071068, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: -2.4, y: 0.21, z: -10.41}
+  m_LocalPosition: {x: 0.6, y: 0.22, z: -1.23}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -174,23 +176,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!114 &8146563009251246552
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2701207938523222053}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 71b026103f191804f89dbc124d9f6eec, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  projectilePrefab: {fileID: 5925694129162115490, guid: 50dcc820b3415bb4782a85d52afb15a4,
-    type: 3}
-  firePoint: {fileID: 2401836064247426409}
-  fireRate: 1
-  projectileSpeed: 20
 --- !u!136 &9192322957610682290
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -214,6 +199,81 @@ CapsuleCollider:
   m_Height: 0.32638678
   m_Direction: 1
   m_Center: {x: -0.000000044703484, y: 0, z: -0.000000014901161}
+--- !u!114 &6187259271877082961
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2701207938523222053}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5d1c4e0b1822b495aa52bc52839ecb30, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_BrainParameters:
+    VectorObservationSize: 11
+    NumStackedVectorObservations: 1
+    m_ActionSpec:
+      m_NumContinuousActions: 2
+      BranchSizes: 02000000
+    VectorActionSize: 
+    VectorActionDescriptions: []
+    VectorActionSpaceType: 0
+    hasUpgradedBrainParametersWithActionSpec: 1
+  m_Model: {fileID: 5022602860645237092, guid: f869000d83c8f014598de20a582b6574, type: 3}
+  m_InferenceDevice: 0
+  m_BehaviorType: 2
+  m_BehaviorName: TurretShoot
+  TeamId: 0
+  m_UseChildSensors: 1
+  m_UseChildActuators: 1
+  m_DeterministicInference: 0
+  m_ObservableAttributeHandling: 0
+--- !u!114 &-7075048047974222919
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2701207938523222053}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: df04efc0d1177b14280d34e476ba0b9a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  agentParameters:
+    maxStep: 0
+  hasUpgradedFromAgentParameters: 1
+  MaxStep: 1000
+  turretCanon: {fileID: 3330217183330917925}
+  firePoint: {fileID: 2401836064247426409}
+  objetivo: {fileID: 4751544095850410949, guid: 80a2cc66b45d9e6419723bc3fbe9da79,
+    type: 3}
+  limiteElevacionMin: -20
+  limiteElevacionMax: 15
+  projectilePrefab: {fileID: 5925694129162115490, guid: 50dcc820b3415bb4782a85d52afb15a4,
+    type: 3}
+  fuerzaProyectil: 34
+  fireRate: 1.5
+  projectileSpeed: 5
+  tieneLineaDeVision: 0
+  rewardAccumulada: 0
+--- !u!114 &2103594042412960437
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2701207938523222053}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3a5c9d521e5ef4759a8246a07d52221e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  DecisionPeriod: 5
+  DecisionStep: 0
+  TakeActionsBetweenDecisions: 1
 --- !u!1 &4831118717819576575
 GameObject:
   m_ObjectHideFlags: 0

@@ -1,0 +1,47 @@
+{
+    "SuperTank": {
+        "checkpoints": [
+            {
+                "steps": 499932,
+                "file_path": "results\\TestA5\\SuperTank\\SuperTank-499932.onnx",
+                "reward": 462.31780509515244,
+                "creation_time": 1736280802.3904622,
+                "auxillary_file_paths": [
+                    "results\\TestA5\\SuperTank\\SuperTank-499932.pt"
+                ]
+            },
+            {
+                "steps": 999954,
+                "file_path": "results\\TestA5\\SuperTank\\SuperTank-999954.onnx",
+                "reward": 615.8509832765998,
+                "creation_time": 1736282665.9817812,
+                "auxillary_file_paths": [
+                    "results\\TestA5\\SuperTank\\SuperTank-999954.pt"
+                ]
+            },
+            {
+                "steps": 1000082,
+                "file_path": "results\\TestA5\\SuperTank\\SuperTank-1000082.onnx",
+                "reward": 615.8509832765998,
+                "creation_time": 1736282666.0899332,
+                "auxillary_file_paths": [
+                    "results\\TestA5\\SuperTank\\SuperTank-1000082.pt"
+                ]
+            }
+        ],
+        "final_checkpoint": {
+            "steps": 1000082,
+            "file_path": "results\\TestA5\\SuperTank.onnx",
+            "reward": 615.8509832765998,
+            "creation_time": 1736282666.0899332,
+            "auxillary_file_paths": [
+                "results\\TestA5\\SuperTank\\SuperTank-1000082.pt"
+            ]
+        }
+    },
+    "metadata": {
+        "stats_format_version": "0.3.0",
+        "mlagents_version": "1.2.0.dev0",
+        "torch_version": "2.5.1+cpu"
+    }
+}

@@ -51,34 +51,34 @@ public class TurretProjectile : MonoBehaviour
         if (other.TryGetComponent<Limit>(out Limit limit)){
             Destroy(gameObject);
         }
-        if (other.CompareTag("MovingObjective"))
-        {
-            Debug.Log("¡Proyectil de torreta impactó en el tanque!");
+        // if (other.CompareTag("MovingObjective"))
+        // {
+        //     Debug.Log("¡Proyectil de torreta impactó en el tanque!");
             
-            MovingObjective objective = other.GetComponent<MovingObjective>();
-            if (objective != null)
-            {
-                objective.TakeDamage(damage);
-            }
+        //     MovingObjective objective = other.GetComponent<MovingObjective>();
+        //     if (objective != null)
+        //     {
+        //         objective.TakeDamage(damage);
+        //     }
 
-            if (ownerAgent != null)
-            {
-                ownerAgent.AddReward(100f); // Recompensa adicional por impactar al tanque
-                ownerAgent.rewardAccumulada += 100f;
-                Debug.Log("Puntos +100 impacto");
+        //     if (ownerAgent != null)
+        //     {
+        //         ownerAgent.AddReward(100f); // Recompensa adicional por impactar al tanque
+        //         ownerAgent.rewardAccumulada += 100f;
+        //         Debug.Log("Puntos +100 impacto");
 
-                if (objective.currentHealth <= 0)
-                {
-                    ownerAgent.AddReward(1000f); // Recompensa adicional por impactar al tanque
-                    ownerAgent.rewardAccumulada += 1000f;
-                    Debug.Log("Puntos +1000 impacto");
-                    objective.currentHealth = objective.maxHealth;
-                    ownerAgent.EndEpisode();
-                }
-            }
+        //         if (objective.currentHealth <= 0)
+        //         {
+        //             ownerAgent.AddReward(1000f); // Recompensa adicional por impactar al tanque
+        //             ownerAgent.rewardAccumulada += 1000f;
+        //             Debug.Log("Puntos +1000 impacto");
+        //             objective.currentHealth = objective.maxHealth;
+        //             ownerAgent.EndEpisode();
+        //         }
+        //     }
             
-            Destroy(gameObject);
-        }
+        //     Destroy(gameObject);
+        // }
 
     }
 } 

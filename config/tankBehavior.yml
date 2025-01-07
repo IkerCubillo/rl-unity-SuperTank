@@ -2,24 +2,24 @@ behaviors:
   SuperTank:
     trainer_type: ppo
     hyperparameters:
-      batch_size: 2048                # Tamaño de lote mayor para una tarea más compleja
-      buffer_size: 40960              # Aumentado para mayor estabilidad
+      batch_size: 1024                # Tamaño de lote mayor para una tarea más compleja
+      buffer_size: 20480              # Aumentado para mayor estabilidad
       learning_rate: 3.0e-4           # Tasa de aprendizaje adecuada para PPO
-      beta: 1.0e-3                    # Regularización para evitar sobreajuste
+      beta: 5.0e-4                    # Regularización para evitar sobreajuste
       epsilon: 0.2                    # Factor de exploración/explotación
       lambd: 0.95                     # Factor de ventaja generalizada
-      num_epoch: 5                    # Más épocas para mejorar la estabilidad del aprendizaje
-      learning_rate_schedule: linear  # Decae con el tiempo
+      num_epoch: 3                    # Más épocas para mejorar la estabilidad del aprendizaje
+      learning_rate_schedule: constant  # Decae con el tiempo
       beta_schedule: constant         # Beta constante
       epsilon_schedule: linear        # Exploración disminuye con el tiempo
     network_settings:
       normalize: true                 # Normalizar las observaciones para un mejor rendimiento
       hidden_units: 256               # Más neuronas para manejar tareas complejas
-      num_layers: 3                   # Más capas para capturar patrones complejos
+      num_layers: 2                   # Más capas para capturar patrones complejos
     reward_signals:
       extrinsic:
         gamma: 0.99                   # Descuento de recompensa a largo plazo
         strength: 1.0                 # Peso de la señal de recompensa extrínseca
-    max_steps: 1000000                # Aumentar el número de pasos para un entrenamiento completo
-    time_horizon: 128                 # Ajustar el horizonte temporal para entornos más dinámicos
+    max_steps: 500000                # Aumentar el número de pasos para un entrenamiento completo
+    time_horizon: 64                 # Ajustar el horizonte temporal para entornos más dinámicos
     summary_freq: 10000               # Reducir la frecuencia de los resúmenes para tareas largas

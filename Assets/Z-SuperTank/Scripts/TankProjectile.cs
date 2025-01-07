@@ -6,10 +6,16 @@ public class TankProjectile : MonoBehaviour
     [SerializeField] private float lifeTime = 3f;
 
     private SuperTank tankAgent;
+    private EnemyTurret enemyTurret;
 
     public void Initialize(SuperTank agent)
     {
         tankAgent = agent;
+    }
+
+    public void Initialize(EnemyTurret turret)
+    {
+        enemyTurret = turret;
     }
 
     private void Start()
@@ -34,11 +40,16 @@ public class TankProjectile : MonoBehaviour
             {
                 tankAgent.AddReward(1000.0f);
                 tankAgent.performanceScore += 1000.0f;
-                tankAgent.EndEpisode();
+                //tankAgent.EndEpisode();
             }
             
-            //Destroy(other.gameObject);
+            Destroy(other.gameObject);
             Destroy(gameObject);
+
+            if (enemyTurret != null)
+            {
+                tankAgent.EndEpisode();
+            }
         }
 
         if (other.TryGetComponent<Limit>(out Limit limit)){
