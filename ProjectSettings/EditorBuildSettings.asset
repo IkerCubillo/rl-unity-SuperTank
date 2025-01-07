@@ -4,5 +4,9 @@
 EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
-  m_Scenes: []
+  m_Scenes:
+  - enabled: 1
+    path: Assets/Z-SuperTank/Scenes/scene-target-tank.unity
+    guid: 968aecab33738ad45a6c21b7cf598ee9
   m_configObjects: {}
+  m_UseUCBPForAssetBundles: 0

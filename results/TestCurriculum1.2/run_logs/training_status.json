@@ -1,0 +1,38 @@
+{
+    "SuperTank": {
+        "checkpoints": [
+            {
+                "steps": 499995,
+                "file_path": "results\\TestCurriculum1.2\\SuperTank\\SuperTank-499995.onnx",
+                "reward": 489.4464556589359,
+                "creation_time": 1736205958.9966142,
+                "auxillary_file_paths": [
+                    "results\\TestCurriculum1.2\\SuperTank\\SuperTank-499995.pt"
+                ]
+            },
+            {
+                "steps": 500059,
+                "file_path": "results\\TestCurriculum1.2\\SuperTank\\SuperTank-500059.onnx",
+                "reward": 489.4464556589359,
+                "creation_time": 1736205959.1303358,
+                "auxillary_file_paths": [
+                    "results\\TestCurriculum1.2\\SuperTank\\SuperTank-500059.pt"
+                ]
+            }
+        ],
+        "final_checkpoint": {
+            "steps": 500059,
+            "file_path": "results\\TestCurriculum1.2\\SuperTank.onnx",
+            "reward": 489.4464556589359,
+            "creation_time": 1736205959.1303358,
+            "auxillary_file_paths": [
+                "results\\TestCurriculum1.2\\SuperTank\\SuperTank-500059.pt"
+            ]
+        }
+    },
+    "metadata": {
+        "stats_format_version": "0.3.0",
+        "mlagents_version": "1.2.0.dev0",
+        "torch_version": "2.2.2+cu121"
+    }
+}

@@ -1,0 +1,29 @@
+{
+    "SuperTank": {
+        "checkpoints": [
+            {
+                "steps": 101213,
+                "file_path": "results\\Test4\\SuperTank\\SuperTank-101213.onnx",
+                "reward": -470.8612636483234,
+                "creation_time": 1736193425.6516562,
+                "auxillary_file_paths": [
+                    "results\\Test4\\SuperTank\\SuperTank-101213.pt"
+                ]
+            }
+        ],
+        "final_checkpoint": {
+            "steps": 101213,
+            "file_path": "results\\Test4\\SuperTank.onnx",
+            "reward": -470.8612636483234,
+            "creation_time": 1736193425.6516562,
+            "auxillary_file_paths": [
+                "results\\Test4\\SuperTank\\SuperTank-101213.pt"
+            ]
+        }
+    },
+    "metadata": {
+        "stats_format_version": "0.3.0",
+        "mlagents_version": "1.2.0.dev0",
+        "torch_version": "2.2.2+cu121"
+    }
+}

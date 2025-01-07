@@ -32,8 +32,9 @@ public class TankProjectile : MonoBehaviour
             
             if (tankAgent != null)
             {
-                tankAgent.AddReward(100.0f);
-                tankAgent.performanceScore += 100.0f;
+                tankAgent.AddReward(1000.0f);
+                tankAgent.performanceScore += 1000.0f;
+                tankAgent.EndEpisode();
             }
             
             //Destroy(other.gameObject);
@@ -42,6 +43,8 @@ public class TankProjectile : MonoBehaviour
 
         if (other.TryGetComponent<Limit>(out Limit limit)){
             Destroy(gameObject);
+            tankAgent.AddReward(-10f);
+            tankAgent.performanceScore += -10f;
         }
 
         else

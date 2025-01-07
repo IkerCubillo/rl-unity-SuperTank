@@ -2,22 +2,22 @@
     "SuperTank": {
         "checkpoints": [
             {
-                "steps": 70143,
-                "file_path": "results\\Test2\\SuperTank\\SuperTank-70143.onnx",
-                "reward": null,
-                "creation_time": 1736186421.6696975,
+                "steps": 210827,
+                "file_path": "results\\Test2\\SuperTank\\SuperTank-210827.onnx",
+                "reward": -33.65921685428108,
+                "creation_time": 1736192077.6241562,
                 "auxillary_file_paths": [
-                    "results\\Test2\\SuperTank\\SuperTank-70143.pt"
+                    "results\\Test2\\SuperTank\\SuperTank-210827.pt"
                 ]
             }
         ],
         "final_checkpoint": {
-            "steps": 70143,
+            "steps": 210827,
             "file_path": "results\\Test2\\SuperTank.onnx",
-            "reward": null,
-            "creation_time": 1736186421.6696975,
+            "reward": -33.65921685428108,
+            "creation_time": 1736192077.6241562,
             "auxillary_file_paths": [
-                "results\\Test2\\SuperTank\\SuperTank-70143.pt"
+                "results\\Test2\\SuperTank\\SuperTank-210827.pt"
             ]
         }
     },

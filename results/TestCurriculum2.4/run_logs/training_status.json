@@ -1,0 +1,29 @@
+{
+    "SuperTank": {
+        "checkpoints": [
+            {
+                "steps": 0,
+                "file_path": "results\\TestCurriculum2.4\\SuperTank\\SuperTank-0.onnx",
+                "reward": null,
+                "creation_time": 1736262217.3943255,
+                "auxillary_file_paths": [
+                    "results\\TestCurriculum2.4\\SuperTank\\SuperTank-0.pt"
+                ]
+            }
+        ],
+        "final_checkpoint": {
+            "steps": 0,
+            "file_path": "results\\TestCurriculum2.4\\SuperTank.onnx",
+            "reward": null,
+            "creation_time": 1736262217.3943255,
+            "auxillary_file_paths": [
+                "results\\TestCurriculum2.4\\SuperTank\\SuperTank-0.pt"
+            ]
+        }
+    },
+    "metadata": {
+        "stats_format_version": "0.3.0",
+        "mlagents_version": "1.2.0.dev0",
+        "torch_version": "2.5.1+cpu"
+    }
+}

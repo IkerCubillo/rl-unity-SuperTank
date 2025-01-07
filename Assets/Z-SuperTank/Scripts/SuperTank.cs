@@ -26,24 +26,31 @@ public class SuperTank : Agent
     {
         currentHealth = maxHealth;
         performanceScore = 0f;
-        //transform.localPosition = new Vector3(-0.5f, 0.2f, -4);
-        transform.localPosition = new Vector3(Random.Range(-6f, 6f), 0.2f, Random.Range(-6f, 6f));
-        targetTransform.localPosition = new Vector3(Random.Range(-6f, 6f), 0.2f, Random.Range(-6f, 6f));
-        transform.rotation = Quaternion.identity;
-        tankHead.localRotation = Quaternion.identity;
 
+        // Posición aleatoria del tanque
+        // transform.localPosition = new Vector3(Random.Range(-6f, 6f), 0.2f, Random.Range(-6f, 6f));
+        transform.localPosition = new Vector3(-2.15f,0.22f,-1.08f);
+        // Posición aleatoria del objetivo
+        // targetTransform.localPosition = new Vector3(Random.Range(-6f, 6f), 0.2f, Random.Range(-6f, 6f));
+        targetTransform.localPosition = new Vector3(0.6f,0.22f,-1.23f);
+        // Rotación aleatoria del tanque (solo en el eje Y)
+        float randomYRotation = Random.Range(0f, 360f);
+        transform.rotation = Quaternion.Euler(0f, randomYRotation, 0f);
+        // Restablecer la rotación de la torreta
+        tankHead.localRotation = Quaternion.identity;
+        // Inicializar el Rigidbody
         rb = GetComponent<Rigidbody>();
-        
     }
+
 
     public override void OnActionReceived(ActionBuffers actions)
     {        
         float rotate = actions.ContinuousActions[0];
-        float moveZ = actions.ContinuousActions[1];
-        float headRotate = actions.ContinuousActions[2];
+        //float moveZ = actions.ContinuousActions[1];
+        float headRotate = actions.ContinuousActions[1];
         int shootAction = actions.DiscreteActions[0];
 
-        ApplyMovement(moveZ, rotate, headRotate);
+        ApplyMovement(rotate, headRotate);
         
         if (shootAction == 1)
         {
@@ -55,8 +62,55 @@ public class SuperTank : Agent
         //     AddReward(1f);
         // }
 
-        AddReward(-0.01f);
-        performanceScore += -0.01f;
+        // Penalización por cada paso para incentivar eficiencia
+        AddReward(-0.1f);
+        performanceScore += -0.1f;
+
+        // Recompensa positiva por apuntar al objetivo
+        float aimingReward = CalculateRewardForAiming();
+        AddReward(aimingReward);
+        performanceScore += aimingReward;
+
+        if (IsFlipped())
+        {
+            Debug.Log("¡El tanque se volcó!");
+            SetReward(-1000f); // Penalización por volcarse
+            EndEpisode();
+        }
+    }
+
+    private bool IsFlipped()
+    {
+        // Obtener el ángulo de inclinación en el eje X (pitch) y Z (roll)
+        float pitchAngle = transform.rotation.eulerAngles.x;
+        float rollAngle = transform.rotation.eulerAngles.z;
+
+        // Normalizar los ángulos para que estén en el rango [-180, 180]
+        if (pitchAngle > 180f) pitchAngle -= 360f;
+        if (rollAngle > 180f) rollAngle -= 360f;
+
+        // Considerar el tanque volcado si está inclinado más de 90 grados en cualquier dirección
+        return Mathf.Abs(pitchAngle) > 90f || Mathf.Abs(rollAngle) > 90f;
+    }
+
+    private float CalculateRewardForAiming()
+    {
+        // Vector de dirección desde el cañón hacia el objetivo
+        Vector3 directionToTarget = (targetTransform.position - tankHead.position).normalized;
+        // Vector que apunta hacia adelante desde la cabeza del tanque
+        Vector3 headForward = tankHead.forward;
+
+        // Calcular el ángulo entre la cabeza del tanque y el objetivo
+        float angle = Vector3.Angle(headForward, directionToTarget);
+
+        // Recompensa máxima cuando el ángulo es 0 grados (perfectamente alineado)
+        // Ajustar la recompensa proporcionalmente. Menos de 10 grados obtiene una buena recompensa.
+        if (angle < 10f)
+        {
+            return (10f - angle); // Recompensa inversamente proporcional al ángulo
+        }
+
+        return -0.1f; //si no apunta al objetivo recompensa negativa
     }
 
     public override void Heuristic(in ActionBuffers actionsOut)
@@ -92,16 +146,16 @@ public class SuperTank : Agent
         return Mathf.Abs(rollAngle) < maxRollAngle;
     }
 
-    private void ApplyMovement(float moveZ, float rotate, float headRotate)
+    private void ApplyMovement(float rotate, float headRotate)
     {
-        float moveSpeed = 3f * speedMultiplier;
+        //float moveSpeed = 3f * speedMultiplier;
         float rotationSpeed = 100f * speedMultiplier;
         float headRotationSpeed = 50f * speedMultiplier;
 
         // Solo permitir movimiento si el tanque no está demasiado inclinado
         if (CanMove())
         {
-            transform.localPosition += transform.forward * moveZ * Time.deltaTime * moveSpeed;
+        //     transform.localPosition += transform.forward * moveZ * Time.deltaTime * moveSpeed;
             transform.Rotate(Vector3.up, rotate * Time.deltaTime * rotationSpeed);
         }
 
@@ -115,7 +169,7 @@ public class SuperTank : Agent
 
         nextFireTime = Time.time + fireRate;
         Vector3 spawnPosition = firePoint != null ? firePoint.position : tankHead.position;
-        
+
         GameObject projectile = Instantiate(projectilePrefab, spawnPosition, tankHead.rotation);
         TankProjectile tankProjectile = projectile.GetComponent<TankProjectile>();
         if (tankProjectile != null)
@@ -124,16 +178,21 @@ public class SuperTank : Agent
         }
         Debug.Log("¡Tanque disparando!");
 
-        
-        // Aplicar retroceso
+        // AddReward(-10f);
+        // performanceScore += -10f;
+        // Aplicar retroceso basado en la dirección de la torreta
         if (rb != null)
         {
-            // Aplicar una fuerza hacia atrás
-            rb.AddForce(-transform.forward * 5f, ForceMode.Impulse);
-            // Inclinar el tanque hacia atrás
-            rb.AddTorque(Vector3.right * 250f, ForceMode.Impulse);
+            // Retroceso en la dirección opuesta al apuntado de la torreta
+            Vector3 recoilDirection = -tankHead.forward;
+            rb.AddForce(recoilDirection * 2.5f, ForceMode.Impulse);
+
+            // Aplicar torque para inclinar hacia atrás dependiendo de la dirección de la torreta
+            Vector3 recoilTorque = Vector3.Cross(tankHead.forward, Vector3.up);
+            rb.AddTorque(recoilTorque * 100f, ForceMode.Impulse);
         }
     }
+
 
     public void SetSpeedMultiplier(float multiplier)
     {
@@ -156,8 +215,8 @@ public class SuperTank : Agent
     {
         Debug.Log("¡Tanque destruido!");
         //Debug.Log(Reward);
-        AddReward(-10f); // Penalización por morir
-        performanceScore += -10f;
+        SetReward(-1000f); // Penalización por morir
+        performanceScore += -1000f;
         EndEpisode(); // Reiniciar el episodio (para ML-Agents)
     }
 
@@ -165,8 +224,8 @@ public class SuperTank : Agent
         
         if (other.TryGetComponent<Limit>(out Limit limit)){
             Debug.Log($"Se choca con: {other.gameObject.name}!");
-            SetReward(-100f);
-            performanceScore += -100f;
+            SetReward(-1000f);
+            performanceScore += -1000f;
             EndEpisode();
         }
         // if (other.CompareTag("Canon")){
