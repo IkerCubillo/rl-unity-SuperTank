@@ -32,12 +32,12 @@ public class TurretShoot : Agent
     public override void OnEpisodeBegin()
     {
         // turretCanon.localRotation = Quaternion.identity;
-        turretCanon.localRotation = Quaternion.Euler(3f, 0f, 0f);
+        // turretCanon.localRotation = Quaternion.Euler(3f, 0f, 0f);
 
         float randomX = Random.Range(0, 2) == 0 ? Random.Range(-6f, -1f) : Random.Range(1f, 6f);
         float randomZ = Random.Range(0, 2) == 0 ? Random.Range(-6f, -1f) : Random.Range(1f, 6f);
 
-        objetivo.localPosition = new Vector3(randomX, 0.21f, randomZ);
+        //objetivo.localPosition = new Vector3(randomX, 0.21f, randomZ);
         //objetivo.localPosition = new Vector3(Random.Range(-5, 5), 0.21f, Random.Range(-5, 5));
 
         rewardAccumulada = 0f;

@@ -1,0 +1,65 @@
+{
+    "SuperTank": {
+        "checkpoints": [
+            {
+                "steps": 499920,
+                "file_path": "results\\TestA3\\SuperTank\\SuperTank-499920.onnx",
+                "reward": 52.157836641584126,
+                "creation_time": 1736266827.9830122,
+                "auxillary_file_paths": [
+                    "results\\TestA3\\SuperTank\\SuperTank-499920.pt"
+                ]
+            },
+            {
+                "steps": 999904,
+                "file_path": "results\\TestA3\\SuperTank\\SuperTank-999904.onnx",
+                "reward": 226.55623216393553,
+                "creation_time": 1736267910.3996632,
+                "auxillary_file_paths": [
+                    "results\\TestA3\\SuperTank\\SuperTank-999904.pt"
+                ]
+            },
+            {
+                "steps": 1499945,
+                "file_path": "results\\TestA3\\SuperTank\\SuperTank-1499945.onnx",
+                "reward": 458.28617322855985,
+                "creation_time": 1736268991.20849,
+                "auxillary_file_paths": [
+                    "results\\TestA3\\SuperTank\\SuperTank-1499945.pt"
+                ]
+            },
+            {
+                "steps": 1999878,
+                "file_path": "results\\TestA3\\SuperTank\\SuperTank-1999878.onnx",
+                "reward": 488.20914699165684,
+                "creation_time": 1736270068.5310936,
+                "auxillary_file_paths": [
+                    "results\\TestA3\\SuperTank\\SuperTank-1999878.pt"
+                ]
+            },
+            {
+                "steps": 2000006,
+                "file_path": "results\\TestA3\\SuperTank\\SuperTank-2000006.onnx",
+                "reward": 488.20914699165684,
+                "creation_time": 1736270068.6341841,
+                "auxillary_file_paths": [
+                    "results\\TestA3\\SuperTank\\SuperTank-2000006.pt"
+                ]
+            }
+        ],
+        "final_checkpoint": {
+            "steps": 2000006,
+            "file_path": "results\\TestA3\\SuperTank.onnx",
+            "reward": 488.20914699165684,
+            "creation_time": 1736270068.6341841,
+            "auxillary_file_paths": [
+                "results\\TestA3\\SuperTank\\SuperTank-2000006.pt"
+            ]
+        }
+    },
+    "metadata": {
+        "stats_format_version": "0.3.0",
+        "mlagents_version": "1.2.0.dev0",
+        "torch_version": "2.5.1+cpu"
+    }
+}

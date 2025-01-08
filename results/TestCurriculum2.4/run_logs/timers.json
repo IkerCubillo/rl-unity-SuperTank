@@ -1,0 +1,49 @@
+{
+    "name": "root",
+    "metadata": {
+        "timer_format_version": "0.1.0",
+        "start_time_seconds": "1736262208",
+        "python_version": "3.10.12 | packaged by Anaconda, Inc. | (main, Jul  5 2023, 19:01:18) [MSC v.1916 64 bit (AMD64)]",
+        "command_line_arguments": "D:\\miniconda\\envs\\mlagents\\Scripts\\mlagents-learn config/tankBehaviorCurriculum.yml --force --initialize-from=TestCurriculum2.3 --run-id=TestCurriculum2.4 --env=D:\\Dev\\ml-agents\\rl-unity-SuperTank\\Build\\UnityEnvironment.exe --torch-device=cpu",
+        "mlagents_version": "1.2.0.dev0",
+        "mlagents_envs_version": "1.2.0.dev0",
+        "communication_protocol_version": "1.5.0",
+        "pytorch_version": "2.5.1+cpu",
+        "numpy_version": "1.23.5",
+        "end_time_seconds": "1736262217"
+    },
+    "total": 9.546264500007965,
+    "count": 1,
+    "self": 0.38278430001810193,
+    "children": {
+        "run_training.setup": {
+            "total": 0.12492239999119192,
+            "count": 1,
+            "self": 0.12492239999119192
+        },
+        "TrainerController.start_learning": {
+            "total": 9.03855779999867,
+            "count": 1,
+            "self": 0.00011929997708648443,
+            "children": {
+                "TrainerController._reset_env": {
+                    "total": 8.922674100031145,
+                    "count": 1,
+                    "self": 8.922674100031145
+                },
+                "TrainerController._save_models": {
+                    "total": 0.11576439999043941,
+                    "count": 1,
+                    "self": 0.001259300042875111,
+                    "children": {
+                        "RLTrainer._checkpoint": {
+                            "total": 0.1145050999475643,
+                            "count": 1,
+                            "self": 0.1145050999475643
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
