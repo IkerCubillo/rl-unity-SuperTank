@@ -31,11 +31,11 @@ public class TurretShoot : Agent
     
     public override void OnEpisodeBegin()
     {
-        // turretCanon.localRotation = Quaternion.identity;
+        turretCanon.localRotation = Quaternion.identity;
         // turretCanon.localRotation = Quaternion.Euler(3f, 0f, 0f);
 
-        float randomX = Random.Range(0, 2) == 0 ? Random.Range(-6f, -1f) : Random.Range(1f, 6f);
-        float randomZ = Random.Range(0, 2) == 0 ? Random.Range(-6f, -1f) : Random.Range(1f, 6f);
+        // float randomX = Random.Range(0, 2) == 0 ? Random.Range(-6f, -1f) : Random.Range(1f, 6f);
+        // float randomZ = Random.Range(0, 2) == 0 ? Random.Range(-6f, -1f) : Random.Range(1f, 6f);
 
         //objetivo.localPosition = new Vector3(randomX, 0.21f, randomZ);
         //objetivo.localPosition = new Vector3(Random.Range(-5, 5), 0.21f, Random.Range(-5, 5));
@@ -46,7 +46,7 @@ public class TurretShoot : Agent
     public override void CollectObservations(VectorSensor sensor)
     {
         // 1. Posición relativa del objetivo respecto a la torreta
-        Vector3 posicionRelativa = objetivo.position - transform.position;
+        Vector3 posicionRelativa = objetivo.localPosition - transform.localPosition;
         sensor.AddObservation(posicionRelativa);
 
         // 2. Ángulo horizontal de la torreta (normalizado entre -0.5 y 0.5)
@@ -62,7 +62,7 @@ public class TurretShoot : Agent
         sensor.AddObservation(tieneLineaDeVision ? 1f : 0f);
 
         // 5. Distancia al objetivo
-        float distancia = Vector3.Distance(objetivo.position, transform.position);
+        float distancia = Vector3.Distance(objetivo.localPosition, transform.localPosition);
         sensor.AddObservation(distancia);
 
         // 6. Velocidad relativa del objetivo
@@ -124,8 +124,8 @@ public class TurretShoot : Agent
             tiempoUltimoDisparo = Time.time;
 
             // Recompensa por disparar con éxito
-            AddReward(-0.1f);
-            rewardAccumulada += -0.1f;
+            AddReward(0.1f);
+            rewardAccumulada += 0.1f;
             Debug.Log("Puntos +10, disparo vision");
         }
         else if (shootAction == 1)

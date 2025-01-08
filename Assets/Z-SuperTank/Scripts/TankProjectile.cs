@@ -43,7 +43,7 @@ public class TankProjectile : MonoBehaviour
                 //tankAgent.EndEpisode();
             }
             
-            Destroy(other.gameObject);
+            //Destroy(other.gameObject);
             Destroy(gameObject);
 
             if (enemyTurret != null)

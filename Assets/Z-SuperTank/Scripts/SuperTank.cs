@@ -29,11 +29,11 @@ public class SuperTank: Agent
         performanceScore = 0f;
 
         // Posición aleatoria del tanque
-        // transform.localPosition = new Vector3(Random.Range(-6f, 6f), 0.2f, Random.Range(-6f, 6f));
-        transform.localPosition = new Vector3(-2.15f,0.22f,-1.08f);
+        transform.localPosition = new Vector3(Random.Range(-6f, 6f), 0.2f, Random.Range(-6f, 6f));
+        //transform.localPosition = new Vector3(-2.15f,0.22f,-1.08f);
         // Posición aleatoria del objetivo
-        // targetTransform.localPosition = new Vector3(Random.Range(-6f, 6f), 0.2f, Random.Range(-6f, 6f));
-        targetTransform.localPosition = new Vector3(0.6f,0.22f,-1.23f);
+        //targetTransform.localPosition = new Vector3(Random.Range(-6f, 6f), 0.2f, Random.Range(-6f, 6f));
+        //targetTransform.localPosition = new Vector3(0.6f,0.22f,-1.23f);
         // Rotación aleatoria del tanque (solo en el eje Y)
         float randomYRotation = Random.Range(0f, 360f);
         transform.rotation = Quaternion.Euler(0f, randomYRotation, 0f);
